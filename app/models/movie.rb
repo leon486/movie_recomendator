@@ -8,6 +8,7 @@
 #  release_date :date
 #  created_at   :datetime         not null
 #  updated_at   :datetime         not null
+#  notified     :boolean
 #
 
 class Movie < ActiveRecord::Base
