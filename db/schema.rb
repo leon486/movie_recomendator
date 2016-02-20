@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160220050128) do
+ActiveRecord::Schema.define(version: 20160220151234) do
 
   create_table "config", force: :cascade do |t|
     t.string   "parameter"
@@ -43,6 +43,7 @@ ActiveRecord::Schema.define(version: 20160220050128) do
     t.date     "release_date"
     t.datetime "created_at",   null: false
     t.datetime "updated_at",   null: false
+    t.boolean  "notified"
   end
 
 end

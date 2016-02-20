@@ -1,6 +1,6 @@
 # == Schema Information
 #
-# Table name: configurations
+# Table name: configs
 #
 #  id          :integer          not null, primary key
 #  parameter   :string

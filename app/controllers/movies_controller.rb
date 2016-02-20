@@ -8,6 +8,7 @@
 #  release_date :date
 #  created_at   :datetime         not null
 #  updated_at   :datetime         not null
+#  notified     :boolean
 #
 
 class MoviesController < ApplicationController
@@ -18,14 +19,16 @@ class MoviesController < ApplicationController
   end
 
   def add_movie
-    m = Movie.find_or_initialize_by(title:params[:title],year:params[:year])
-    m.title = params[:title]
-    m.year = params[:year]
-    m.release_date = params[:release_date]
-    m.save
+    @m = Movie.find_or_initialize_by(title:params[:title],year:params[:year])
+    @m.title = params[:title]
+    @m.year = params[:year]
+    @m.release_date = params[:release_date]
+    if @m.save
+      format.js { render :json => @m,:status => :created, :location => @m }
+    end
   end
   
   def delete
-    Movie.delete(params[:id]) 
+    m = Movie.find_by(id:params[:id]).destroy
   end
 end
