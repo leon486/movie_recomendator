@@ -10,6 +10,16 @@
       $( "#launch" ).datepicker({ minDate: '-100Y', maxDate: "+2Y", dateFormat: "yy-mm-dd", changeMonth: true,
       changeYear: true });
     });
+	
+	$('document').ready(function(){
+		$("#add_movie").click(function(){
+			$.post("add_movie?title="+$('#title').val()+"&year="+$('#year').val()+"&release_date="+$('#release_date').val()+"&authenticity_token=" + encodeURIComponent(AUTH_TOKEN), function(data){
+				alert(data);
+			});
+			return false;
+		});
+	});
+	
     </script>
 	</head>
 <body>
@@ -47,16 +57,16 @@
 
 <div class="container-fluid">	
 <h4>Formulario de sugestion de pel&iacute;culas:</h4>
-<%= form_tag do %>
+<%= form_tag( {controller: "movies", action: "add_movie"}, method: "post", class: "form-inline" ) %>
 <!-- <form class="form-inline"> -->
 <label for="title">Titulo:</label>
-<input type="text" name="title" name="title" class="form-control" maxlength="200" placeholder="Titulo">
+<input type="text" name="title" id="title" class="form-control" maxlength="200" placeholder="Titulo">
 <label for="year">A&ntilde;o:</label>
-<input type="number" name="year" name="year" min="1900" max='2018' value="2016" class="form-control" placeholder="A&ntilde;o">
+<input type="number" name="year" id="year" min="1900" max='2018' value="2016" class="form-control" placeholder="A&ntilde;o">
 <label for="launch_date">Fecha de lanzamiento:</label>
-<input type="text" name="launch_date" id="launch" class="form-control" maxlength="200" placeholder="fecha de lanzamiento" readonly="readonly">
-<input type="submit" value="Agregar" class="btn btn-primary form-control">
-<% end %>
+<input type="text" name="launch_date" id="launch_date" class="form-control" maxlength="200" placeholder="fecha de lanzamiento" readonly="readonly">
+<input type="submit" value="Agregar" class="btn btn-primary form-control" id="add_movie">
+
 </div>
 
 <br />
@@ -110,13 +120,13 @@ Rating
 	<img src="gloria-2013-movie-poster.jpg" style="height:200px"/>
 	</td>
 	<td>
-	Gloria
+	<%= m.title %>
 	</td>
 	<td>
-	2013
+	<%= m.year %>
 	</td>
 	<td>
-	1-Sep-2015
+	<%= m.release_date %>
 	</td>
 	<td>
 	</td>
