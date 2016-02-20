@@ -20,14 +20,13 @@
 				  id: "configuration_save",
 		        class: "btn btn-primary",
 		        click: function() {
-				  $.ajax({ url: "/configurations/save?status="+$('#status').val()+"&time="+$('#time').val()+"&time_type="+$('#time_type').val()+"&emails="+$('#emails').val(),
+				  $.ajax({ url: "/configs/save?notification_status="+$('#notification_status').is(':checked')+"&time="+$('#time').val()+"&time_type="+$('#time_type').val()+"&emails="+$('#emails').val(),
 				    type: 'POST',
 				    beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
 				    success: function(data) {
-						alert(data);
+						//alert(data);
 				    }
 				});
-				return false;
 		          $( this ).dialog( "close" );
 		        }
 		      },{
@@ -70,7 +69,7 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="#">Notificador de Pel&iacute;culas</a>
+      <a class="navbar-brand" href="#">Masthead</a>
     </div>
 
     <!-- Collect the nav links, forms, and other content for toggling -->
@@ -89,7 +88,7 @@
     <div class="col-sm-10">
       <div class="checkbox">
         <label>
-          <input type="checkbox" name="notification_status" id="notification_status" <%= (@c.find_by(parameter:'notification_status')).value == 'on' ? 'checked="checked"' : ''%>"><label for="notification_status">Notificar el estreno de la pel&iacute;cula:</label>
+          <input type="checkbox" name="notification_status" id="notification_status" <%= (@c.find_by(parameter:'notification_status')).value == 'true' ? 'checked=checked' : ''%>"><label for="notification_status">Notificar el estreno de la pel&iacute;cula:</label>
         </label>
       </div>
     </div>
@@ -101,8 +100,8 @@
  </div>
  <div class="col-xs-3">
  <select name="time_type" id="time_type" class="form-control">
-	<option value='D'>D&iacute;as</option>
-	<option value='W'>Semanas</option>
+	<option value='D' <%= (@c.find_by(parameter:'time_type')).value == 'D' ? 'selected' : ''%>>D&iacute;as</option>
+	<option value='W' <%= (@c.find_by(parameter:'time_type')).value == 'W' ? 'selected' : ''%>>Semanas</option>
 </select>
   </div>
    <div class="col-xs-5">
@@ -139,7 +138,7 @@
 <label for="year">A&ntilde;o:</label>
 <input type="number" name="year" required id="year" min="1900" max='2018' value="2016" class="form-control" placeholder="A&ntilde;o">
 <label for="release_date">Fecha de lanzamiento:</label>
-<input type="text" name="release_date" id="release_date" class="form-control" maxlength="200" placeholder="fecha de lanzamiento" readonly="readonly">
+<input type="text" name="release_date" id="release_date" class="form-control" maxlength="200" placeholder="Fecha de lanzamiento" readonly="readonly">
 <input type="submit" value="Agregar" class="btn btn-primary form-control" id="add_movie">
 <%= csrf_meta_tag %>
 </div>
