@@ -7,14 +7,45 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
     <script>
     $(function() {
-      $( "#launch" ).datepicker({ minDate: '-100Y', maxDate: "+2Y", dateFormat: "yy-mm-dd", changeMonth: true,
+      $( "#release_date" ).datepicker({ minDate: '-100Y', maxDate: "+2Y", dateFormat: "yy-mm-dd", changeMonth: true,
       changeYear: true });
     });
 	
 	$('document').ready(function(){
+
+		
+	    $(function() {
+	      $( "#configuration_dialog" ).dialog({autoOpen: false,modal:true, width:700, height:400,  buttons: [
+		      {
+		        text: "Actualizar",
+				  id: "configuration_save",
+		        class: "btn btn-primary",
+		        click: function() {
+					//AJAX
+		          $( this ).dialog( "close" );
+		        }
+		      },{
+      text: "Cancelar",
+	  id:"configuration_cancel",
+      click: function() {
+        $( this ).dialog( "close" );
+      }
+    }
+  ]});
+	    });
+		
+		$("#configuration_button").click(function(){
+			$( "#configuration_dialog" ).dialog( "open" );
+		});
+		
 		$("#add_movie").click(function(){
-			$.post("add_movie?title="+$('#title').val()+"&year="+$('#year').val()+"&release_date="+$('#release_date').val()+"&authenticity_token=" + encodeURIComponent(AUTH_TOKEN), function(data){
-				alert(data);
+			
+			  $.ajax({ url: "add_movie?title="+$('#title').val()+"&year="+$('#year').val()+"&release_date="+$('#release_date').val(),
+			    type: 'POST',
+			    beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
+			    success: function(data) {
+					//alert(data);
+			    }
 			});
 			return false;
 		});
@@ -40,11 +71,52 @@
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav navbar-right">
-        <li><a href="#">Configuraci&oacute;n</a></li>
+        <li><a href="#" id="configuration_button">Configuraci&oacute;n</a></li>
       </ul>
     </div><!-- /.navbar-collapse -->
   </div><!-- /.container-fluid -->
 </nav>
+
+<div class="container-fluid " id="configuration_dialog">
+<h4>Configurac&iacute;on:</h4>
+<form class="form-horizontal" disabled="disabled">
+
+
+<div class="form-group">
+    <div class="col-sm-10">
+      <div class="checkbox">
+        <label>
+          <input type="checkbox" name="notification_status" id="notification_status"><label for="notification_status">Notificar el estreno de la pel&iacute;cula:</label>
+        </label>
+      </div>
+    </div>
+  </div>
+
+<div class="row">
+<div class="col-xs-2">
+<input type="text" name="time" name="time" min="0" class="form-control" maxlength="5" placeholder="Tiempo">
+ </div>
+ <div class="col-xs-3">
+ <select name="time_type" name="time_type" class="form-control">
+	<option>D&iacute;as</option>
+	<option>Semanas</option>
+</select>
+  </div>
+   <div class="col-xs-5">
+  <p>antes de la fecha de estreno.</p>
+    </div>
+
+  </div>
+
+
+
+<label for="emails">A los correos:</label>
+<input type="text" name="emails" name="emails" class="form-control" maxlength="400" placeholder="Correos electr&oacute;nicos"><p>*Se pueden introducir varios correos electronicos separados por coma.</p>
+
+</form>
+</div>
+
+
 <div class="container-fluid">
 	
 <h2>Notificador de pel&iacute;culas<br/><small>Notificador de cuando una pel&iacute;cula ha sido lanzada.</small></h2>
@@ -60,13 +132,13 @@
 <%= form_tag( {controller: "movies", action: "add_movie"}, method: "post", class: "form-inline" ) %>
 <!-- <form class="form-inline"> -->
 <label for="title">Titulo:</label>
-<input type="text" name="title" id="title" class="form-control" maxlength="200" placeholder="Titulo">
+<input type="text" name="title" required id="title" class="form-control" maxlength="200" placeholder="Titulo">
 <label for="year">A&ntilde;o:</label>
-<input type="number" name="year" id="year" min="1900" max='2018' value="2016" class="form-control" placeholder="A&ntilde;o">
-<label for="launch_date">Fecha de lanzamiento:</label>
-<input type="text" name="launch_date" id="launch_date" class="form-control" maxlength="200" placeholder="fecha de lanzamiento" readonly="readonly">
+<input type="number" name="year" required id="year" min="1900" max='2018' value="2016" class="form-control" placeholder="A&ntilde;o">
+<label for="release_date">Fecha de lanzamiento:</label>
+<input type="text" name="release_date" id="release_date" class="form-control" maxlength="200" placeholder="fecha de lanzamiento" readonly="readonly">
 <input type="submit" value="Agregar" class="btn btn-primary form-control" id="add_movie">
-
+<%= csrf_meta_tag %>
 </div>
 
 <br />
