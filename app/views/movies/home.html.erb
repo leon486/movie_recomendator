@@ -12,16 +12,22 @@
     });
 	
 	$('document').ready(function(){
-
-		
 	    $(function() {
-	      $( "#configuration_dialog" ).dialog({autoOpen: false,modal:true, width:700, height:400,  buttons: [
+	      $( "#configuration_dialog" ).dialog({autoOpen: false,modal:true, title: "Configuración",width:700, height:400,  buttons: [
 		      {
+				  
 		        text: "Actualizar",
 				  id: "configuration_save",
 		        class: "btn btn-primary",
 		        click: function() {
-					//AJAX
+				  $.ajax({ url: "/configurations/save?status="+$('#status').val()+"&time="+$('#time').val()+"&time_type="+$('#time_type').val()+"&emails="+$('#emails').val(),
+				    type: 'POST',
+				    beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
+				    success: function(data) {
+						alert(data);
+				    }
+				});
+				return false;
 		          $( this ).dialog( "close" );
 		        }
 		      },{
@@ -39,7 +45,6 @@
 		});
 		
 		$("#add_movie").click(function(){
-			
 			  $.ajax({ url: "add_movie?title="+$('#title').val()+"&year="+$('#year').val()+"&release_date="+$('#release_date').val(),
 			    type: 'POST',
 			    beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
@@ -78,15 +83,13 @@
 </nav>
 
 <div class="container-fluid " id="configuration_dialog">
-<h4>Configurac&iacute;on:</h4>
-<form class="form-horizontal" disabled="disabled">
 
-
+<form class="form-horizontal" action="configuration/save" disabled="disabled">
 <div class="form-group">
     <div class="col-sm-10">
       <div class="checkbox">
         <label>
-          <input type="checkbox" name="notification_status" id="notification_status"><label for="notification_status">Notificar el estreno de la pel&iacute;cula:</label>
+          <input type="checkbox" name="notification_status" id="notification_status" <%= (@c.find_by(parameter:'notification_status')).value == 'on' ? 'checked="checked"' : ''%>"><label for="notification_status">Notificar el estreno de la pel&iacute;cula:</label>
         </label>
       </div>
     </div>
@@ -94,12 +97,12 @@
 
 <div class="row">
 <div class="col-xs-2">
-<input type="text" name="time" name="time" min="0" class="form-control" maxlength="5" placeholder="Tiempo">
+<input type="text" name="time" id="time" min="0" class="form-control" maxlength="5" placeholder="Tiempo" value="<%= (@c.find_by(parameter:'time')).value %>" >
  </div>
  <div class="col-xs-3">
- <select name="time_type" name="time_type" class="form-control">
-	<option>D&iacute;as</option>
-	<option>Semanas</option>
+ <select name="time_type" id="time_type" class="form-control">
+	<option value='D'>D&iacute;as</option>
+	<option value='W'>Semanas</option>
 </select>
   </div>
    <div class="col-xs-5">
@@ -111,7 +114,7 @@
 
 
 <label for="emails">A los correos:</label>
-<input type="text" name="emails" name="emails" class="form-control" maxlength="400" placeholder="Correos electr&oacute;nicos"><p>*Se pueden introducir varios correos electronicos separados por coma.</p>
+<input type="text" name="emails" id="emails" class="form-control" maxlength="400" value="<%= (@c.find_by(parameter:'emails')).value %>" placeholder="Correos electr&oacute;nicos"><p>*Se pueden introducir varios correos electronicos separados por coma.</p>
 
 </form>
 </div>

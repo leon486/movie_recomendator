@@ -11,7 +11,31 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160219210317) do
+ActiveRecord::Schema.define(version: 20160220050128) do
+
+  create_table "config", force: :cascade do |t|
+    t.string   "parameter"
+    t.string   "value"
+    t.string   "description"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
+
+  create_table "configs", force: :cascade do |t|
+    t.string   "parameter"
+    t.string   "value"
+    t.string   "description"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
+
+  create_table "configurations", force: :cascade do |t|
+    t.string   "parameter"
+    t.string   "value"
+    t.string   "description"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
 
   create_table "movies", force: :cascade do |t|
     t.string   "title"
