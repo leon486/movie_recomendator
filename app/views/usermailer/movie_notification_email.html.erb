@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+	<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
+    <script>
+    $(function() {
+      $( "#launch" ).datepicker({ minDate: '-100Y', maxDate: "+2Y", dateFormat: "yy-mm-dd", changeMonth: true,
+      changeYear: true });
+    });
+    </script>
+	</head>
+<body>
+
+
+
+<div class="container-fluid">
+	
+<div class="jumbotron">
+  <h1>Notificador de pel&iacute;culas</h1>
+  <p>Una de tus peliculas est&aacute; proxima a estrenarse!.</p>
+  <div class="media">
+    <div class="media-left">
+      <a href="#">
+      <img src="m.poster" class='media-object'/>
+      </a>
+    </div>
+    <div class="media-body">
+      <h4 class="media-heading">Gloria</h4>
+  	<p>2013</p>
+  	<p>Estreno: 1-Sep-2015</p>
+    </div>
+  </div>
+  <p><a class="btn btn-primary btn-lg" href="#" role="button">Ver en IMBD</a></p>
+</div>
+
+</div>
+
+<div class="container-fluid">
+	<p>Mensaje de blablabla.</p>
+</div>
+
+
+<nav class="navbar navbar-default navbar-fixed-bottom">
+  <div class="container-fluid">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="#">Notificador de Pel&iacute;culas</a>
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav navbar-right">
+      </ul>
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>
+</body>
+</html>

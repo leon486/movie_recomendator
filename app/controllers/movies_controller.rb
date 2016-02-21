@@ -12,23 +12,29 @@
 #
 
 class MoviesController < ApplicationController
-
   def home
+    Movie.notify_movies
     @c = Config.all()
     @movies = Movie.all()
   end
-
+  
+ 
+  
   def add_movie
     @m = Movie.find_or_initialize_by(title:params[:title],year:params[:year])
     @m.title = params[:title]
     @m.year = params[:year]
     @m.release_date = params[:release_date]
-    if @m.save
-      format.js { render :json => @m,:status => :created, :location => @m }
+    @m.save
+    if request.xhr?
+      render :json => {
+                         :movie => @m
+                      }
     end
   end
   
-  def delete
-    m = Movie.find_by(id:params[:id]).destroy
+  def remove
+    #m = Movie.find_by(id:params[:id]).destroy
   end
+    
 end

@@ -37,11 +37,20 @@
 		});
 		
 		$("#add_movie").click(function(){
-			  $.ajax({ url: "add_movie?title="+$('#title').val()+"&year="+$('#year').val()+"&release_date="+$('#release_date').val(),
+			  $.ajax({ url: "/movies/add_movie?title="+$('#title').val()+"&year="+$('#year').val()+"&release_date="+$('#release_date').val(),
 			    type: 'POST',
 			    beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
 			    success: function(data) {
-						alert(data);
+						//alert(data.movie.title);
+						//get row
+						$(".movie_empty").remove();
+						
+						if($("#movie_"+data.movie.id).length>0){
+							$("#movie_"+data.movie.id).replaceWith('<tr id="movie_'+data.movie.id+'"><td> '+data.movie.id+'</td>	<td><img src="gloria-2013-movie-poster.jpg" style="height:200px"/></td><td>'+data.movie.title+'</td><td>'+data.movie.year+'</td><td>'+data.movie.release_date+'</td><td></td><td></td></tr>');
+						}else{
+						
+							$("#movie_table").append('<tr id="movie_'+data.movie.id+'"><td> '+data.movie.id+'</td>	<td><img src="gloria-2013-movie-poster.jpg" style="height:200px"/></td><td>'+data.movie.title+'</td><td>'+data.movie.year+'</td><td>'+data.movie.release_date+'</td><td></td><td></td></tr>');
+						}
 			    }
 			});
 			return false;
@@ -132,16 +141,24 @@
 <label for="year">A&ntilde;o:</label>
 <input type="number" name="year" required id="year" min="1900" max='2018' value="2016" class="form-control" placeholder="A&ntilde;o">
 <label for="release_date">Fecha de lanzamiento:</label>
+
+<div class="input-group">
 <input type="text" name="release_date" id="release_date" class="form-control" maxlength="200" placeholder="Fecha de lanzamiento" readonly="readonly">
+<div class="input-group-btn">
+<button type="button" class="btn btn-default">
+  <span class="glyphicon glyphicon-zoom-in"></span>
+</button>
+</div>
+</div>
+
 <input type="submit" value="Agregar" class="btn btn-primary form-control" id="add_movie">
 <%= csrf_meta_tag %>
 </div>
 
 <br />
 
-
 <div class="table-responsive container-fluid">
-<table class="table table-striped table-hover">
+<table class="table table-striped table-hover" id="movie_table">
  <caption>Notificar los estrenos de:</caption>
 <thead>
 <tr>
@@ -164,7 +181,7 @@ Lanzamiento
 Notificada
 </th>
 <th>
-Rating
+Eliminar
 </th>
 </tr>
 </thead>
@@ -172,20 +189,21 @@ Rating
 
 
 <% if@movies.count == 0%>
-<tr>
+<tr class="movie_empty">
 	<td colspan="7">
 	-No hay pel&iacute;culas registradas-
 	</td>
 </tr>
 <%end%>
 
+
 <% @movies.each do |m|%>
-<tr>
+<tr id="movie_<%= m.id %>">
 	<td>
 	<%= m.id %>
 	</td>	
 	<td>
-	<img src="gloria-2013-movie-poster.jpg" style="height:200px"/>
+	<img src="<%= m.poster %>" style="height:200px"/>
 	</td>
 	<td>
 	<%= m.title %>
@@ -197,8 +215,12 @@ Rating
 	<%= m.release_date %>
 	</td>
 	<td>
+		<% if m.notified %>
+			<span class="glyphicon glyphicon-check"></span>
+		<%end%>
 	</td>
 	<td>
+		X
 	</td>
 </tr>
 <%end%>

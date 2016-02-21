@@ -1,5 +1,7 @@
 source 'https://rubygems.org'
 
+gem 'nokogiri', '1.6.7.2'
+gem 'open-uri-cached'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.2.5.1'

@@ -2,6 +2,8 @@ Rails.application.routes.draw do
   post 'configs/save'
 
   get 'movies/home'
+  
+  root :to =>  'movies#home'
 
   post 'movies/add_movie'
 
