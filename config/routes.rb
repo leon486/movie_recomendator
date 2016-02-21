@@ -4,6 +4,8 @@ Rails.application.routes.draw do
   get 'movies/home'
   
   post 'movies/get_release_date'
+
+  post 'movies/deactivate'
   
   root :to =>  'movies#home'
 
