@@ -22,29 +22,6 @@ class Movie < ActiveRecord::Base
                     
   validates :year,  :presence => true,
                     :length => { :maximum => 4 }
-
-#Use commingsoon.net
-  def self.notify_movies
-    if Movie.where(notified:nil).where.not(release_date:nil).size > 0
-      time=Config.find_by(parameter:'time')
-      time_type=Config.find_by(parameter:'time_type')
-      
-      if time_type == 'D'
-        time = time * 1
-      elsif time_type == 'W'
-        time = time * 7
-      end
-
-      movs = Movie.where(notified:nil).where.not(release_date:nil)
-      movs.each do |m|
-        if (Date.today >= movs.release_date - time)
-        Usermailer.movie_notification_email(m).deliver_later
-        m.notified = true
-        m.save
-      end
-      end
-    end
-  end
   
   def poster 
     
