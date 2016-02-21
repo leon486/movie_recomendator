@@ -71,7 +71,7 @@ class MoviesController < ApplicationController
       end
       Usermailer.movie_notification_email(3).deliver_now
       movs.each do |m|
-        if (Date.today >= movs.release_date - time)
+        if (Date.today >= m.release_date - time)
         Usermailer.movie_notification_email(m).deliver_now
         m.notified = true
         m.save
