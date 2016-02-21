@@ -14,7 +14,7 @@
 
 class MoviesController < ApplicationController
   def home
-   # notify_movies()
+    notify_movies()
     @c = Config.all()
     @movies = Movie.where(active: true)
   end
