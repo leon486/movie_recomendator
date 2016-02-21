@@ -53,7 +53,7 @@ class Movie < ActiveRecord::Base
   
   def get_release_date
 
-    page = Nokogiri::HTML(open("http://www.comingsoon.net/movie/"+(self.title.gsub /\s+/, '-').to_s+"-"+self.year.to_s+"#/slide/1"))   
+    page = Nokogiri::HTML(open("http://www.comingsoon.net/movie/"+((self.title.delete '/*[]:?\\').gsub /\s+/, '-').to_s+"-"+self.year.to_s+"#/slide/1"))   
     release_date_text = page.css('p')[0].text
     release_date = (release_date_text.split(':')[1]).split('(')[0].gsub(/\s+/, "")
     if release_date != nil
