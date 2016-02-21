@@ -3,6 +3,8 @@ Rails.application.routes.draw do
 
   get 'movies/home'
   
+  post 'movies/get_release_date'
+  
   root :to =>  'movies#home'
 
   post 'movies/add_movie'

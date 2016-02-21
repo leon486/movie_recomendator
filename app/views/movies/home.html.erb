@@ -36,6 +36,19 @@
 			$( "#configuration_dialog" ).dialog( "open" );
 		});
 		
+		$("#get_release_date").click(function(){
+			  $.ajax({ url: "/movies/get_release_date?title="+$('#title').val()+"&year="+$('#year').val(),
+			    type: 'POST',
+			    beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
+			    success: function(data) {
+					$('#release_date').val(data.release_date);
+			    }
+			});
+			return false;
+		});
+		
+		
+		//add movie
 		$("#add_movie").click(function(){
 			  $.ajax({ url: "/movies/add_movie?title="+$('#title').val()+"&year="+$('#year').val()+"&release_date="+$('#release_date').val(),
 			    type: 'POST',
@@ -72,7 +85,7 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="#">Masthead</a>
+      <a class="navbar-brand" href="#">Relissio</a>
     </div>
 
     <!-- Collect the nav links, forms, and other content for toggling -->
@@ -145,7 +158,7 @@
 <div class="input-group">
 <input type="text" name="release_date" id="release_date" class="form-control" maxlength="200" placeholder="Fecha de lanzamiento" readonly="readonly">
 <div class="input-group-btn">
-<button type="button" class="btn btn-default">
+<button type="button" class="btn btn-default" id="get_release_date">
   <span class="glyphicon glyphicon-zoom-in"></span>
 </button>
 </div>

@@ -18,7 +18,18 @@ class MoviesController < ApplicationController
     @movies = Movie.all()
   end
   
- 
+  def get_release_date
+    m = Movie.new
+    m.title = params[:title]
+    m.year = params[:year]
+    if request.xhr?
+      render :json => {
+                         :release_date => m.get_release_date
+                      }
+    end
+    return 
+  end
+    
   
   def add_movie
     @m = Movie.find_or_initialize_by(title:params[:title],year:params[:year])
