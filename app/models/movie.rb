@@ -47,14 +47,24 @@ class Movie < ActiveRecord::Base
   end
   
   def poster 
-      page = Nokogiri::HTML(open("http://www.comingsoon.net/movie/"+(self.title.gsub /\s+/, '-').to_s+"-"+self.year.to_s+"#/slide/1"))   
+    
+    begin
+      page = Nokogiri::HTML(open("http://www.comingsoon.net/movie/"+((self.title.delete '/*[]:?\\').gsub /\s+/, '-').to_s+"-"+self.year.to_s+"#/slide/1"))   
       return page.css('.cover-image img')[0]['src']
+    rescue OpenURI::HTTPError
+      return ActionController::Base.helpers.asset_path("poster_not_found.gif")
+    end
   end
   
   def get_release_date
 
-    page = Nokogiri::HTML(open("http://www.comingsoon.net/movie/"+((self.title.delete '/*[]:?\\').gsub /\s+/, '-').to_s+"-"+self.year.to_s+"#/slide/1"))   
-    release_date_text = page.css('p')[0].text
+    begin
+      page = Nokogiri::HTML(open("http://www.comingsoon.net/movie/"+((self.title.delete '/*[]:?\\').gsub /\s+/, '-').to_s+"-"+self.year.to_s+"#/slide/1"))   
+      release_date_text = page.css('p')[0].text
+    rescue OpenURI::HTTPError  
+      return nil
+    end
+    
     release_date = (release_date_text.split(':')[1]).split('(')[0].gsub(/\s+/, "")
     if release_date != nil
       release_date = Date.strptime(release_date,'%B %e, %Y')
