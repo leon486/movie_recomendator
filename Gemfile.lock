@@ -55,7 +55,11 @@ GEM
     daemons (1.2.3)
     debug_inspector (0.0.2)
     erubis (2.7.0)
+<<<<<<< HEAD
     eventmachine (1.0.9.1)
+=======
+    eventmachine (1.0.8)
+>>>>>>> 7f6e51d303c126329b8d703112155b5882c4a402
     execjs (2.6.0)
     globalid (0.3.6)
       activesupport (>= 4.1.0)
